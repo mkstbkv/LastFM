@@ -3,3 +3,10 @@ node_modules
 db.json
 public/uploads/*
 !public/uploads/.gitkeep
+!public/uploads/afterHours.jpeg
+!public/uploads/dawnFM.jpeg
+!public/uploads/drake.jpg
+!public/uploads/nothingWastheSame.jpeg
+!public/uploads/scorpion.jpeg
+!public/uploads/starboy.jpeg
+!public/uploads/theWeeknd.jpg
