@@ -16,6 +16,12 @@ import { ArtistDetailsComponent } from './pages/artist-details/artist-details.co
 import { ImagePipe } from './pipes/image.pipe';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ArtistsEffects } from './store/artists.effects';
+import { artistsReducer } from './store/artists.reducer';
 
 @NgModule({
   declarations: [
@@ -25,19 +31,23 @@ import { HttpClientModule } from '@angular/common/http';
     ArtistDetailsComponent,
     ImagePipe,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FlexLayoutModule,
-    HttpClientModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FlexLayoutModule,
+        HttpClientModule,
+        LayoutModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatListModule,
+        StoreModule.forRoot({artists: artistsReducer}, {}),
+        EffectsModule.forRoot([ArtistsEffects]),
+        MatCardModule,
+        MatProgressSpinnerModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
