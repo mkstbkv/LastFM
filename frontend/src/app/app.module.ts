@@ -22,6 +22,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ArtistsEffects } from './store/artists.effects';
 import { artistsReducer } from './store/artists.reducer';
+import { albumsReducer } from './store/albums.reducer';
+import { AlbumsEffects } from './store/albums.effects';
 
 @NgModule({
   declarations: [
@@ -43,8 +45,8 @@ import { artistsReducer } from './store/artists.reducer';
         MatSidenavModule,
         MatIconModule,
         MatListModule,
-        StoreModule.forRoot({artists: artistsReducer}, {}),
-        EffectsModule.forRoot([ArtistsEffects]),
+        StoreModule.forRoot({artists: artistsReducer, albums: albumsReducer}, {}),
+        EffectsModule.forRoot([ArtistsEffects, AlbumsEffects]),
         MatCardModule,
         MatProgressSpinnerModule
     ],

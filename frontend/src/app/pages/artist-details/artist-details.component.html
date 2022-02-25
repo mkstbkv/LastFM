@@ -1,1 +1,33 @@
-<p>artist-details works!</p>
+<div fxLayout="row" fxLayoutAlign="space-between flex-start">
+  <h1>Albums</h1>
+</div>
+
+<div class="error" *ngIf="error | async">
+  {{ error | async }}
+</div>
+
+<mat-progress-spinner
+  *ngIf="(loading | async) else albumsArea"
+  mode="indeterminate"
+></mat-progress-spinner>
+
+<ng-template #albumsArea>
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div
+      fxFlex.xs="100%"
+      fxFlex.sm="50%"
+      fxFlex.lt-lg="33%"
+      fxFlex="25%"
+      *ngFor="let album of albums | async"
+    >
+      <mat-card style="max-width: 400px">
+        <mat-card-header>
+          <mat-card-title>{{ album.title }}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image [src]="album.image  | image" [alt]="'Photo of ' + album.title">
+        <p><strong>{{ album.release }}</strong></p>
+      </mat-card>
+    </div>
+  </div>
+</ng-template>
+

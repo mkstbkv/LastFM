@@ -26,7 +26,7 @@ router.get('/', async (req, res, next) => {
             query.artist = req.query.artist;
         }
 
-        const albums = await Album.find(query).populate("artist", "name info");
+        const albums = await Album.find(query).populate("artist", "name info image");
 
         return res.send(albums);
     } catch (e) {
@@ -36,7 +36,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        const album = await Album.findById(req.params.id).populate("artist", "name info");
+        const album = await Album.findById(req.params.id).populate("artist", "name info image");
 
         if (!album) {
             return res.status(404).send({message: 'Not found'});
