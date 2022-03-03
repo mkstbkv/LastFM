@@ -13,10 +13,14 @@ const TrackHistorySchema = new mongoose.Schema({
         required: true
     },
     datetime: {
-        type: Date,
+        type: String,
         required: true,
     }
 });
+
+TrackHistorySchema.methods.generateDatetime = function() {
+    this.token = new Date().toDateString();
+};
 
 const TrackHistory = mongoose.model('TrackHistory', TrackHistorySchema);
 
