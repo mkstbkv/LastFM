@@ -7,7 +7,6 @@ const router = express.Router();
 router.post('/', async (req, res, next) => {
     try {
         const user = new User(req.body);
-        user.generateToken();
         await user.save();
 
         return res.send(user);

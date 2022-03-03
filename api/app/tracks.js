@@ -10,7 +10,7 @@ router.get("/", async (req, res, next) => {
         if (req.query.album) {
             query.album = req.query.album;
         }
-        const tracks = await Track.find(query);
+        const tracks = await Track.find(query).populate("album", "title artist");
         return res.send(tracks);
     } catch(e) {
         next(e);

@@ -14,7 +14,6 @@ const UserSchema = new mongoose.Schema({
     },
     token: {
         type: String,
-        required: true,
     }
 });
 
