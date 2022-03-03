@@ -29,7 +29,7 @@ UserSchema.pre('save', async function(next) {
 });
 
 UserSchema.set('toJSON', {
-    transform: (doc, ret) => {
+    transform: (doc, ret, options) => {
         delete ret.password;
         return ret;
     }

@@ -19,7 +19,7 @@ const TrackHistorySchema = new mongoose.Schema({
 });
 
 TrackHistorySchema.methods.generateDatetime = function() {
-    this.token = new Date().toDateString();
+    this.datetime = new Date().toISOString();
 };
 
 const TrackHistory = mongoose.model('TrackHistory', TrackHistorySchema);

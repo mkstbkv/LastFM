@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const config = require("./config");
 const Artist = require("./models/Artist");
 const Album = require("./models/Album");
+const Track = require("./models/Track");
+const User = require("./models/User");
+const TrackHistory = require("./models/TrackHistory");
 
 const run = async () => {
     await mongoose.connect(config.mongo.db, config.mongo.options);
@@ -22,7 +25,7 @@ const run = async () => {
         image: 'theWeeknd.jpg'
     });
 
-    await Album.create({
+   const [scorpion, nothingWasTheSame, starboy, afterHours, dawnFM] = await Album.create({
         title: 'Scorpion',
         artist: drake,
         release: '2018',
@@ -48,6 +51,49 @@ const run = async () => {
         release: '20222',
         image: 'dawnFM.jpeg'
     });
+
+    const [survival, holdOnWereGoingHome, starboytrack, blindingLights, gasoline] = await Track.create({
+        name: 'Survival',
+        album: scorpion,
+        duration: '2:16'
+    }, {
+        name: "Hold On, We're Going Home",
+        album: nothingWasTheSame,
+        duration: '3:46'
+    }, {
+        name: 'Starboy',
+        album: starboy,
+        duration: '3:50'
+    }, {
+        name: 'Blinding Lights',
+        album: afterHours,
+        duration: '3:23'
+    }, {
+        name: 'Gasoline',
+        album: dawnFM,
+        duration: '3:33'
+    });
+
+    const [john, jane] = await User.create({
+        email: 'john@gmail.com',
+        password: '123',
+        token: '5enDI2paOqusPavVWOnwB'
+    }, {
+        email: 'jane@gmail.com',
+        password: '321',
+        token: '6enDI5paOpolPavTUOnwB'
+    });
+
+    await TrackHistory.create({
+        user: john,
+        track: starboytrack,
+        datetime: '2022-02-22T17:50:43.775Z'
+    }, {
+        user: jane,
+        track: holdOnWereGoingHome,
+        datetime: '2022-03-03T17:50:43.775Z'
+    })
+
 
     await mongoose.connection.close();
 };
