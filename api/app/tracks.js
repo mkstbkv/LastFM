@@ -48,11 +48,15 @@ router.get("/", async (req, res, next) => {
 
 router.get("/byAlbum/:albumID", async (req, res, next) => {
     try {
+
+        const album = await Album.findById(req.params.albumID);
+        const artist = await Artist.findById(album.artist._id);
+
         const allTracks = await Track.find().populate(
             {
                 path:  "album"  ,
                 match: {
-                    'artist':  req.query.artist
+                    'artist':  album.artist._id
                 } ,
                 populate: {
                     path:  'artist',
@@ -68,9 +72,6 @@ router.get("/byAlbum/:albumID", async (req, res, next) => {
                 tracks.push(tracksKey)
             }
         }
-        const album = await Album.findById(req.params.albumID);
-        const artist = await Artist.findById(album.artist._id);
-
 
         return res.send({
             artist: artist,
