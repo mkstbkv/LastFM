@@ -7,10 +7,22 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        validate: {
+            validator: async value => {
+                const user = await User.findOne({email: value});
+                if (user) return false;
+            },
+            message: 'This email is already registered'
+        }
     },
     password: {
         type: String,
         required: true,
+    },
+    avatar: String,
+    displayName: {
+        type: String,
+        required: true
     },
     token: {
         type: String,

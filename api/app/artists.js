@@ -1,5 +1,6 @@
 const express = require('express');
 const Artist = require('../models/Artist');
+const Album = require("../models/Album");
 
 const router = express.Router();
 
@@ -12,9 +13,23 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", upload.single('image'), async (req, res, next) => {
     try {
-        const artistData = req.body;
+        if (!req.body.name) {
+            return res.status(400).send({message: 'Name is required'});
+        }
+
+        const artistData = {
+            name: req.body.name,
+            info: req.body.info,
+            image: null,
+        };
+
+        if (req.file) {
+            artistData.image = req.file.filename;
+        }
+
+
         const artist = new Artist(artistData);
         await artist.save();
         return res.send(artist);
