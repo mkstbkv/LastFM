@@ -24,6 +24,10 @@ import { ArtistsEffects } from './store/artists.effects';
 import { artistsReducer } from './store/artists.reducer';
 import { albumsReducer } from './store/albums.reducer';
 import { AlbumsEffects } from './store/albums.effects';
+import { RegisterComponent } from './pages/register/register.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -32,24 +36,28 @@ import { AlbumsEffects } from './store/albums.effects';
     ArtistsComponent,
     ArtistDetailsComponent,
     ImagePipe,
+    RegisterComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        FlexLayoutModule,
-        HttpClientModule,
-        LayoutModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatListModule,
-        StoreModule.forRoot({artists: artistsReducer, albums: albumsReducer}, {}),
-        EffectsModule.forRoot([ArtistsEffects, AlbumsEffects]),
-        MatCardModule,
-        MatProgressSpinnerModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    FlexLayoutModule,
+    HttpClientModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    StoreModule.forRoot({artists: artistsReducer, albums: albumsReducer}, {}),
+    EffectsModule.forRoot([ArtistsEffects, AlbumsEffects]),
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

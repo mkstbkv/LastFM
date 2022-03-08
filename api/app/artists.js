@@ -1,8 +1,22 @@
 const express = require('express');
 const Artist = require('../models/Artist');
-const Album = require("../models/Album");
+const multer = require("multer");
+const config = require("../config");
+const {nanoid} = require("nanoid");
+const path = require("path");
 
 const router = express.Router();
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, config.uploadPath);
+    },
+    filename: (req, file, cb) => {
+        cb(null, nanoid() + path.extname(file.originalname))
+    }
+});
+
+const upload = multer({storage});
 
 router.get("/", async (req, res, next) => {
     try {
