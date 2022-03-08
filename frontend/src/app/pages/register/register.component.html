@@ -7,6 +7,7 @@
         fxLayout="column"
         autocomplete="off"
         (ngSubmit)="onSubmit()"
+        [appIdentical]="['password', 'passwordRepeat']"
       >
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
@@ -36,6 +37,36 @@
           </mat-error>
         </mat-form-field>
 
+        <mat-form-field appearance="outline">
+          <mat-label>Repeat password</mat-label>
+          <input
+            type="password" name="passwordRepeat" autocomplete="new-password"
+            required matInput ngModel #pRepeat="ngModel"
+          />
+          <mat-error *ngIf="pRepeat.touched && pRepeat.hasError('required')">
+            Repeat your password
+          </mat-error>
+          <mat-error *ngIf="(pRepeat.touched && f.errors?.['identical'])">
+            Passwords should match
+          </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+          <mat-label>Display Name</mat-label>
+          <input
+            type="text" name="displayName"
+            required matInput ngModel #displayName="ngModel"
+          />
+          <mat-error *ngIf="displayName.touched && displayName.hasError('required')">
+            Display Name is required!
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Avatar</mat-label>
+          <app-file-input name="avatar" ngModel></app-file-input>
+        </mat-form-field>
         <button
           type="submit"
           mat-raised-button

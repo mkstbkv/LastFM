@@ -77,10 +77,12 @@ const run = async () => {
     const [john, jane] = await User.create({
         email: 'john@gmail.com',
         password: '123',
+        displayName: 'John',
         token: '5enDI2paOqusPavVWOnwB'
     }, {
         email: 'jane@gmail.com',
         password: '321',
+        displayName: 'Jane',
         token: '6enDI5paOpolPavTUOnwB'
     });
 

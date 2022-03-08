@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require("mongoose");
 const multer = require('multer');
 const path = require('path');
+const config = require('../config');
 const { nanoid } = require('nanoid');
 const User = require("../models/User");
 
@@ -27,8 +28,8 @@ router.post('/', upload.single('avatar'), async (req, res, next) => {
         const userData = {
             email: req.body.email,
             password: req.body.password,
-            avatar: null,
             displayName: req.body.displayName,
+            avatar: null,
         };
 
         if (req.file) {
