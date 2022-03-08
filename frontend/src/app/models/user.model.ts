@@ -2,15 +2,16 @@ export interface User {
   _id: string,
   email: string,
   displayName: string,
-  avatar: File | null,
+  avatar: string | null,
   token: string,
 }
 
 export interface RegisterUserData {
-  email: string,
-  password: string,
-  displayName: string
-  avatar: File | null,
+  [key: string]: any;
+  email: string;
+  password: string;
+  displayName: string;
+  avatar: File | null;
 }
 
 export interface FieldError {

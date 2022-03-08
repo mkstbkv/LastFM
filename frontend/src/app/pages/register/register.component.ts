@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Observable, Subscription } from 'rxjs';
-import { RegisterError } from '../../models/user.model';
+import { RegisterError, RegisterUserData } from '../../models/user.model';
 import { registerUserRequest } from '../../store/users.actions';
 
 @Component({
@@ -34,8 +34,8 @@ export class RegisterComponent implements AfterViewInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.form.value);
-    this.store.dispatch(registerUserRequest({userData: this.form.value}));
+    const userData: RegisterUserData = this.form.value
+    this.store.dispatch(registerUserRequest({userData: userData}));
   }
 
   ngOnDestroy() {
