@@ -4,6 +4,8 @@ const multer = require("multer");
 const config = require("../config");
 const {nanoid} = require("nanoid");
 const path = require("path");
+const auth = require("../middleware/auth");
+const permit = require("../middleware/permit");
 
 const router = express.Router();
 
@@ -27,7 +29,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-router.post("/", upload.single('image'), async (req, res, next) => {
+router.post("/", auth, permit('admin'), upload.single('image'), async (req, res, next) => {
     try {
         if (!req.body.name) {
             return res.status(400).send({message: 'Name is required'});

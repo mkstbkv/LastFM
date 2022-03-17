@@ -3,6 +3,8 @@ const multer = require('multer');
 const path = require('path');
 const { nanoid } = require('nanoid');
 const config = require('../config');
+const auth = require("../middleware/auth");
+const permit = require("../middleware/permit");
 const Album = require("../models/Album");
 
 const router = express.Router();
@@ -48,7 +50,7 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-router.post('/', upload.single('image'), async (req, res, next) => {
+router.post('/', auth, permit('admin'), upload.single('image'), async (req, res, next) => {
     try {
         if (!req.body.title || !req.body.release) {
             return res.status(400).send({message: 'Title and release are required'});
