@@ -8,11 +8,12 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true,
         validate: {
-            validator: async value => {
+            validator: async function (value) {
+                if (!this.isModified('email')) return true;
                 const user = await User.findOne({email: value});
-                if (user) return false;
+                return !user;
             },
-            message: 'This email is already registered'
+            message: 'This user is already registered'
         }
     },
     password: {

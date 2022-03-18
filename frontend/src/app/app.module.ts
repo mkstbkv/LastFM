@@ -33,6 +33,10 @@ import { UsersEffects } from './store/users.effects';
 import { FileInputComponent } from './ui/file-input/file-input.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ValidateIdenticalDirective } from './validate-identical.directive';
+import { CenteredCardComponent } from './ui/centered-card/centered-card.component';
+import { LoginComponent } from './pages/login/login.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { AppStoreModule } from './store/app-store.module';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,9 @@ import { ValidateIdenticalDirective } from './validate-identical.directive';
     ImagePipe,
     RegisterComponent,
     FileInputComponent,
-    ValidateIdenticalDirective
+    ValidateIdenticalDirective,
+    CenteredCardComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +70,9 @@ import { ValidateIdenticalDirective } from './validate-identical.directive';
     MatCardModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatMenuModule,
+    AppStoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

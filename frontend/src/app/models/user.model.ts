@@ -6,16 +6,16 @@ export interface User {
   token: string,
 }
 
+export interface FieldError {
+  message: string
+}
+
 export interface RegisterUserData {
   [key: string]: any;
   email: string;
   password: string;
   displayName: string;
   avatar: File | null;
-}
-
-export interface FieldError {
-  message: string
 }
 
 export interface RegisterError {
@@ -25,3 +25,13 @@ export interface RegisterError {
     displayName: FieldError
   }
 }
+
+export interface LoginUserData {
+  email: string,
+  password: string,
+}
+
+export interface LoginError {
+  error: string
+}
+

@@ -1,10 +1,10 @@
 const express = require('express');
 const mongoose = require("mongoose");
+const User = require("../models/User");
 const multer = require('multer');
 const path = require('path');
 const config = require('../config');
 const { nanoid } = require('nanoid');
-const User = require("../models/User");
 
 const router = express.Router();
 
@@ -37,6 +37,7 @@ router.post('/', upload.single('avatar'), async (req, res, next) => {
         }
 
         const user = new User(userData);
+        user.generateToken();
         await user.save();
 
         return res.send(user);
@@ -49,23 +50,27 @@ router.post('/', upload.single('avatar'), async (req, res, next) => {
     }
 });
 
-router.post('/sessions', async (req, res) => {
-    const user = await User.findOne({email: req.body.email});
+router.post('/sessions', async (req, res, next) => {
+    try {
+        const user = await User.findOne({email: req.body.email});
 
-    if (!user) {
-        return res.status(400).send({error: 'Email not found'});
+        if (!user) {
+            return res.status(400).send({error: 'Email not found'});
+        }
+
+        const isMatch = await user.checkPassword(req.body.password);
+
+        if (!isMatch) {
+            return res.status(400).send({error: 'Password is wrong'});
+        }
+
+        user.generateToken();
+        await user.save();
+
+        return res.send(user);
+    } catch (e) {
+        next(e);
     }
-
-    const isMatch = await user.checkPassword(req.body.password);
-
-    if (!isMatch) {
-        return res.status(400).send({error: 'Password is wrong'});
-    }
-
-    user.generateToken();
-    await user.save();
-
-    return res.send(user);
 });
 
 router.delete('/sessions', async (req, res, next) => {
