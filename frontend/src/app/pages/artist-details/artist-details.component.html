@@ -26,6 +26,7 @@
         </mat-card-header>
         <img mat-card-image [src]="album.image  | image" [alt]="'Photo of ' + album.title">
         <p><strong>{{ album.release }}</strong></p>
+        <a routerLink="/tracks/{{album.id}}" mat-raised-button color="primary">All tracks</a>
       </mat-card>
     </div>
   </div>

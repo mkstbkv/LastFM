@@ -1,11 +1,12 @@
 const express = require('express');
 const auth = require("../middleware/auth");
+const permit = require("../middleware/permit");
 const TrackHistory = require("../models/TrackHistory");
 const mongoose = require("mongoose");
 
 const router = express.Router();
 
-router.post('/', auth, async (req, res, next) => {
+router.post('/', auth, permit('admin'), async (req, res, next) => {
     try {
         try {
             if (!req.body.track) {

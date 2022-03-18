@@ -9,7 +9,6 @@ import { map } from 'rxjs';
 })
 export class ArtistsService {
 
-
   constructor(private http: HttpClient) { }
 
   getArtists() {

@@ -1,0 +1,35 @@
+<div fxLayout="row" fxLayoutAlign="space-between flex-start">
+  <h1>Tracks</h1>
+</div>
+
+<div class="error" *ngIf="error | async">
+  {{ error | async }}
+</div>
+
+<mat-progress-spinner
+  *ngIf="(loading | async) else tracksArea"
+  mode="indeterminate"
+></mat-progress-spinner>
+
+<ng-template #tracksArea>
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div
+      fxFlex.xs="100%"
+      fxFlex.sm="50%"
+      fxFlex.lt-lg="33%"
+      fxFlex="25%"
+      *ngFor="let track of tracks | async"
+    >
+      <mat-card>
+        <mat-card-title>{{ track.name }}</mat-card-title>
+        <mat-card-subtitle>{{ track.duration }}</mat-card-subtitle>
+        <mat-card-actions align="end">
+          <button mat-icon-button>
+            <mat-icon>play_circle_outline</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</ng-template>
+

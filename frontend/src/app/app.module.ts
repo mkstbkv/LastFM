@@ -16,20 +16,12 @@ import { ArtistDetailsComponent } from './pages/artist-details/artist-details.co
 import { ImagePipe } from './pipes/image.pipe';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ArtistsEffects } from './store/artists.effects';
-import { artistsReducer } from './store/artists.reducer';
-import { albumsReducer } from './store/albums.reducer';
-import { AlbumsEffects } from './store/albums.effects';
 import { RegisterComponent } from './pages/register/register.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { usersReducer } from './store/users.reducer';
-import { UsersEffects } from './store/users.effects';
 import { FileInputComponent } from './ui/file-input/file-input.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ValidateIdenticalDirective } from './validate-identical.directive';
@@ -37,6 +29,7 @@ import { CenteredCardComponent } from './ui/centered-card/centered-card.componen
 import { LoginComponent } from './pages/login/login.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { AppStoreModule } from './store/app-store.module';
+import { TracksComponent } from './pages/tracks/tracks.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +42,8 @@ import { AppStoreModule } from './store/app-store.module';
     FileInputComponent,
     ValidateIdenticalDirective,
     CenteredCardComponent,
-    LoginComponent
+    LoginComponent,
+    TracksComponent
   ],
   imports: [
     BrowserModule,
@@ -65,8 +59,6 @@ import { AppStoreModule } from './store/app-store.module';
     MatIconModule,
     MatListModule,
     MatSnackBarModule,
-    StoreModule.forRoot({artists: artistsReducer, albums: albumsReducer, users: usersReducer}, {}),
-    EffectsModule.forRoot([ArtistsEffects, AlbumsEffects, UsersEffects]),
     MatCardModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
