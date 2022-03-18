@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="space-between flex-start">
-  <h1>Tracks</h1>
+  <h1>Track History</h1>
 </div>
 
 <div class="error" *ngIf="error | async">
@@ -18,16 +18,13 @@
       fxFlex.sm="50%"
       fxFlex.lt-lg="33%"
       fxFlex="25%"
-      *ngFor="let track of tracks | async"
+      *ngFor="let trackHistory of tracksHistory | async"
     >
       <mat-card>
-        <mat-card-title>{{ track.name }}</mat-card-title>
-        <mat-card-subtitle>{{ track.duration }}</mat-card-subtitle>
-        <mat-card-actions align="end">
-          <button mat-icon-button (click)="createTrackHistory(track._id)">
-            <mat-icon>play_circle_outline</mat-icon>
-          </button>
-        </mat-card-actions>
+        <mat-card-title>{{ trackHistory.track.name }}</mat-card-title>
+        <mat-card-subtitle>{{ trackHistory.track.duration }}</mat-card-subtitle>
+        <p>{{ trackHistory.datetime }}</p>
+        <p>{{ trackHistory.user.displayName }}</p>
       </mat-card>
     </div>
   </div>

@@ -36,4 +36,5 @@ export class ArtistsService {
     });
 
     return this.http.post(environment.apiUrl + '/artists', formData);
-  }}
+  }
+}

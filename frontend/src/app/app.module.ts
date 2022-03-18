@@ -30,6 +30,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { AppStoreModule } from './store/app-store.module';
 import { TracksComponent } from './pages/tracks/tracks.component';
+import { TracksHistoryComponent } from './pages/tracks-history/tracks-history.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { TracksComponent } from './pages/tracks/tracks.component';
     ValidateIdenticalDirective,
     CenteredCardComponent,
     LoginComponent,
-    TracksComponent
+    TracksComponent,
+    TracksHistoryComponent
   ],
   imports: [
     BrowserModule,

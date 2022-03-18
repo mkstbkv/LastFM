@@ -5,6 +5,8 @@ import { AppState } from '../../store/types';
 import { Track } from '../../models/track.model';
 import { fetchTracksRequest } from '../../store/tracks.actions';
 import { ActivatedRoute } from '@angular/router';
+import { createTracksHistoryRequest } from '../../store/tracksHistory.actions';
+import { TracksHistoryData } from '../../models/tracksHistory.model';
 
 @Component({
   selector: 'app-tracks',
@@ -16,7 +18,10 @@ export class TracksComponent implements OnInit {
   loading: Observable<boolean>
   error: Observable<null | string>
 
-  constructor(private store: Store<AppState>, private route: ActivatedRoute) {
+  constructor
+  (private store: Store<AppState>,
+   private route: ActivatedRoute,
+  ) {
     this.tracks = store.select(state => state.tracks.tracks);
     this.loading = store.select(state => state.tracks.fetchLoading);
     this.error = store.select(state => state.tracks.fetchError);
@@ -24,5 +29,13 @@ export class TracksComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(fetchTracksRequest({id: this.route.snapshot.params['id']}));
+  }
+
+  createTrackHistory(id: string) {
+    const trackHistoryData: TracksHistoryData  = {
+      track: id
+    };
+
+    this.store.dispatch(createTracksHistoryRequest({tracksHistoryData: trackHistoryData}));
   }
 }

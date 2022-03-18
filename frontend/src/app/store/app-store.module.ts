@@ -26,10 +26,11 @@ const reducers = {
   albums: albumsReducer,
   users: usersReducer,
   artists: artistsReducer,
-  tracks: tracksReducer
+  tracks: tracksReducer,
+  tracksHistory: tracksReducer
 };
 
-const effects = [AlbumsEffects, UsersEffects, ArtistsEffects, TracksEffects];
+const effects = [AlbumsEffects, UsersEffects, ArtistsEffects, TracksEffects, TracksEffects];
 
 @NgModule({
   imports: [
