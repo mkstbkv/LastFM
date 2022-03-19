@@ -1,0 +1,55 @@
+<app-centered-card title="New Track">
+  <form
+    #f="ngForm"
+    fxLayout="column"
+    autocomplete="off"
+    (ngSubmit)="onSubmit()"
+  >
+    <div *ngIf="error | async" class="error">
+      {{ (error | async) }}
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input
+        type="text" name="name" required matInput ngModel #name="ngModel"
+      />
+      <mat-error *ngIf="name.touched && name.hasError('required')">
+        Name is required!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Select a album</mat-label>
+      <mat-select name="album" #album="ngModel" required ngModel>
+        <mat-option
+          *ngFor="let album of albums"
+          [value]="album.id"
+        >
+          {{ album.title }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="album.touched && album.hasError('required')">
+        Album is required!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Duration</mat-label>
+      <input
+        type="text" name="duration" required matInput ngModel #duration="ngModel"
+      />
+      <mat-error *ngIf="duration.touched && duration.hasError('required')">
+        Duration is required!
+      </mat-error>
+    </mat-form-field>
+
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="f.invalid"
+    >
+      ADD
+    </button>
+  </form>
+</app-centered-card>

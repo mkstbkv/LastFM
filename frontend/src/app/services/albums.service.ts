@@ -22,6 +22,7 @@ export class AlbumsService {
             albumData.artist,
             albumData.release,
             albumData.image,
+            albumData.is_published
           );
         });
       })

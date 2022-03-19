@@ -6,7 +6,13 @@ export class Track {
     public name: string,
     public album: Album,
     public duration: string,
-    public image: string,
-    public is_published: Boolean
+    public is_published: Boolean,
   ) {}
+}
+
+export interface TrackData {
+  [key: string]: any;
+  name: string;
+  album: Album;
+  duration: string;
 }

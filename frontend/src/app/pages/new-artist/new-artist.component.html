@@ -1,0 +1,46 @@
+<app-centered-card title="New Artist">
+  <form
+    #f="ngForm"
+    fxLayout="column"
+    autocomplete="off"
+    (ngSubmit)="onSubmit()"
+  >
+    <div *ngIf="error | async" class="error">
+      {{ (error | async) }}
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input
+        type="text" name="name" required matInput ngModel #name="ngModel"
+      />
+      <mat-error *ngIf="name.touched && name.hasError('required')">
+        Name is required!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Info</mat-label>
+      <textarea
+        name="info"
+        ngModel
+        matInput
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="3"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Image</mat-label>
+      <app-file-input name="image" ngModel></app-file-input>
+    </mat-form-field>
+
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="f.invalid"
+    >
+      ADD
+    </button>
+  </form>
+</app-centered-card>

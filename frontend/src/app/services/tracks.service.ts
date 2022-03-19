@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs';
-import { Track } from '../models/track.model';
+import { Track, TrackData } from '../models/track.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +19,22 @@ export class TracksService {
             trackData.name,
             trackData.album,
             trackData.duration,
+            trackData.is_published
           );
         });
       })
     );
+  }
+
+  createTrack(trackData: TrackData) {
+    const formData = new FormData();
+
+    Object.keys(trackData).forEach(key => {
+      if (trackData[key] !== null) {
+        formData.append(key, trackData[key]);
+      }
+    });
+
+    return this.http.post(environment.apiUrl + '/tracks', formData);
   }
 }

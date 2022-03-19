@@ -8,10 +8,10 @@ import { fetchAlbumsRequest } from '../../store/albums.actions';
 
 @Component({
   selector: 'app-artist-details',
-  templateUrl: './artist-details.component.html',
-  styleUrls: ['./artist-details.component.sass']
+  templateUrl: './albums.component.html',
+  styleUrls: ['./albums.component.sass']
 })
-export class ArtistDetailsComponent implements OnInit {
+export class AlbumsComponent implements OnInit {
   albums: Observable<Album[]>
   loading: Observable<boolean>
   error: Observable<null | string>

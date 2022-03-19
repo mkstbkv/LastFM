@@ -14,12 +14,13 @@ export class ArtistsService {
   getArtists() {
     return this.http.get<ApiArtistData[]>(environment.apiUrl + '/artists').pipe(
       map(response => {
-        return response.map(productData => {
+        return response.map(artistData => {
           return new Artist(
-            productData._id,
-            productData.name,
-            productData.info,
-            productData.image,
+            artistData._id,
+            artistData.name,
+            artistData.info,
+            artistData.image,
+            artistData.is_published
           );
         });
       })

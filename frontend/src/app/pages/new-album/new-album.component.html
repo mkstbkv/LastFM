@@ -1,0 +1,60 @@
+<app-centered-card title="New Album">
+  <form
+    #f="ngForm"
+    fxLayout="column"
+    autocomplete="off"
+    (ngSubmit)="onSubmit()"
+  >
+    <div *ngIf="error | async" class="error">
+      {{ (error | async) }}
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input
+        type="text" name="title" required matInput ngModel #title="ngModel"
+      />
+      <mat-error *ngIf="title.touched && title.hasError('required')">
+        Title is required!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Select a artist</mat-label>
+      <mat-select name="artist" #artist="ngModel" required ngModel>
+        <mat-option
+          *ngFor="let artist of artists | async"
+          [value]="artist.id"
+        >
+          {{ artist.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="artist.touched && artist.hasError('required')">
+        Artist is required!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Release</mat-label>
+      <input
+        type="text" name="release" required matInput ngModel #release="ngModel"
+      />
+      <mat-error *ngIf="release.touched && release.hasError('required')">
+        Release is required!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Image</mat-label>
+      <app-file-input name="image" ngModel></app-file-input>
+    </mat-form-field>
+
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="f.invalid"
+    >
+      ADD
+    </button>
+  </form>
+</app-centered-card>

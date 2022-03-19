@@ -13,7 +13,6 @@ export interface ArtistData {
   name: string;
   info: string;
   image: File | null;
-  is_published: Boolean;
 }
 
 export interface ApiArtistData {
