@@ -15,6 +15,11 @@ const TrackSchema = new mongoose.Schema({
     duration: {
         type: String,
         required: true,
+    },
+    is_published: {
+        type: Boolean,
+        required: true,
+        default: false,
     }
 });
 

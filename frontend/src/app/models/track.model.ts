@@ -6,5 +6,7 @@ export class Track {
     public name: string,
     public album: Album,
     public duration: string,
+    public image: string,
+    public is_published: Boolean
   ) {}
 }
