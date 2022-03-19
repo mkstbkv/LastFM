@@ -9,17 +9,38 @@ import { TracksHistoryComponent } from './pages/tracks-history/tracks-history.co
 import { NewArtistComponent } from './pages/new-artist/new-artist.component';
 import { NewAlbumComponent } from './pages/new-album/new-album.component';
 import { NewTrackComponent } from './pages/new-track/new-track.component';
+import { RoleGuardService } from './services/role-guard.service';
 
 const routes: Routes = [
   {path: '', component: ArtistsComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'artists/:id', component: AlbumsComponent},
-  {path: 'new-artist', component: NewArtistComponent},
-  {path: 'new-album', component: NewAlbumComponent},
+  {path: 'albums/:id', component: AlbumsComponent},
+  {
+    path: 'new-artist',
+    component: NewArtistComponent,
+    canActivate: [RoleGuardService],
+    data: {roles: ['admin', 'user']}
+  },
+  {
+    path: 'new-album',
+    component: NewAlbumComponent,
+    canActivate: [RoleGuardService],
+    data: {roles: ['admin', 'user']}
+  },
   {path: 'tracks/:id', component: TracksComponent},
-  {path: 'new-track', component: NewTrackComponent},
-  {path: 'tracksHistory', component: TracksHistoryComponent},
+  {
+    path: 'new-track',
+    component: NewTrackComponent,
+    canActivate: [RoleGuardService],
+    data: {roles: ['admin', 'user']}
+  },
+  {
+    path: 'tracksHistory',
+    component: TracksHistoryComponent,
+    canActivate: [RoleGuardService],
+    data: {roles: ['admin', 'user']}
+  }
 ];
 
 @NgModule({

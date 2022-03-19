@@ -19,9 +19,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-router.get("/", async (req, res, next) => {
+router.get("/", auth, async (req, res, next) => {
     try {
-        const artists = await Artist.find();
+        const query = {};
+        if (req.user.role === 'user') {
+            query.is_published = true
+        }
+        const artists = await Artist.find(query);
         return res.send(artists);
     } catch(e) {
         next(e);

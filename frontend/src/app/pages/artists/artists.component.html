@@ -26,7 +26,7 @@
         </mat-card-header>
         <img mat-card-image [src]="artist.image  | image" [alt]="'Photo of ' + artist.name">
         <mat-card-actions>
-          <a [routerLink]="['/artists/', artist.id]" mat-raised-button color="primary">View Albums</a>
+          <a [routerLink]="['/albums/', artist.id]" mat-raised-button color="primary">View Albums</a>
         </mat-card-actions>
       </mat-card>
     </div>

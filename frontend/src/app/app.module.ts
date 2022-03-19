@@ -15,7 +15,7 @@ import { ArtistsComponent } from './pages/artists/artists.component';
 import { AlbumsComponent } from './pages/albums/albums.component';
 import { ImagePipe } from './pipes/image.pipe';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RegisterComponent } from './pages/register/register.component';
@@ -35,6 +35,9 @@ import { NewArtistComponent } from './pages/new-artist/new-artist.component';
 import { NewAlbumComponent } from './pages/new-album/new-album.component';
 import { NewTrackComponent } from './pages/new-track/new-track.component';
 import { MatSelectModule } from '@angular/material/select';
+import { AuthInterceptor } from './auth.interceptor';
+import { HasRolesDirective } from './directives/has-roles.directive';
+import { UserTypeDirective } from './directives/user-type.directive';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,9 @@ import { MatSelectModule } from '@angular/material/select';
     TracksHistoryComponent,
     NewArtistComponent,
     NewAlbumComponent,
-    NewTrackComponent
+    NewTrackComponent,
+    HasRolesDirective,
+    UserTypeDirective
   ],
     imports: [
         BrowserModule,
@@ -76,7 +81,9 @@ import { MatSelectModule } from '@angular/material/select';
         AppStoreModule,
         MatSelectModule
     ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

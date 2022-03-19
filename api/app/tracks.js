@@ -6,7 +6,7 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
+router.get("/", auth, async (req, res, next) => {
     try {
         const query = {};
 
@@ -38,6 +38,10 @@ router.get("/", async (req, res, next) => {
 
             return res.send(tracks);
 
+        }
+
+        if (req.user.role === 'user') {
+            query.is_published = true
         }
 
         const tracks = await Track.find(query).populate("album", "title artist");

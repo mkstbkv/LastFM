@@ -19,12 +19,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-router.get('/', async (req, res, next) => {
+router.get('/', auth, async (req, res, next) => {
     try {
         const query = {};
 
         if (req.query.artist) {
             query.artist = req.query.artist;
+        }
+
+        if (req.user.role === 'user') {
+            query.is_published = true
         }
 
         const albums = await Album.find(query).populate("artist", "name info image");
@@ -35,9 +39,16 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', auth, async (req, res, next) => {
     try {
-        const album = await Album.findById(req.params.id).populate("artist", "name info image");
+        const query = {
+            _id: req.params.id
+        }
+        if (req.user.role === 'user') {
+            query.is_published = true
+        }
+
+        const album = await Album.find(query).populate("artist", "name info image");
 
         if (!album) {
             return res.status(404).send({message: 'Not found'});
