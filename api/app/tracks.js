@@ -3,7 +3,6 @@ const Track = require("../models/Track");
 const Album = require("../models/Album");
 const Artist = require("../models/Artist");
 const auth = require("../middleware/auth");
-const permit = require("../middleware/permit");
 
 const router = express.Router();
 
@@ -87,13 +86,19 @@ router.get("/byAlbum/:albumID", async (req, res, next) => {
 
 
 
-router.post("/",  auth, permit('admin'), async (req, res, next) => {
+router.post("/",  auth, async (req, res, next) => {
     try {
         const trackData = {
             name: req.body.name,
             album: req.body.album,
             duration: req.body.duration,
+            is_published: false
         };
+
+        if (req.user.role === 'admin') {
+            trackData.is_published = true
+        }
+
         const track = new Track(trackData);
         await track.save();
         return res.send(track);

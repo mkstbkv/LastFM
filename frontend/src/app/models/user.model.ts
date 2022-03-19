@@ -4,6 +4,7 @@ export interface User {
   displayName: string,
   avatar: string | null,
   token: string,
+  role: string
 }
 
 export interface FieldError {

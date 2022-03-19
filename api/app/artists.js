@@ -5,7 +5,6 @@ const config = require("../config");
 const {nanoid} = require("nanoid");
 const path = require("path");
 const auth = require("../middleware/auth");
-const permit = require("../middleware/permit");
 
 const router = express.Router();
 
@@ -29,7 +28,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-router.post("/", auth, permit('admin'), upload.single('image'), async (req, res, next) => {
+router.post("/", auth, upload.single('image'), async (req, res, next) => {
     try {
         if (!req.body.name) {
             return res.status(400).send({message: 'Name is required'});
@@ -39,12 +38,16 @@ router.post("/", auth, permit('admin'), upload.single('image'), async (req, res,
             name: req.body.name,
             info: req.body.info,
             image: null,
+            is_published: false
         };
 
         if (req.file) {
             artistData.image = req.file.filename;
         }
 
+        if (req.user.role === 'admin') {
+            artistData.is_published = true
+        }
 
         const artist = new Artist(artistData);
         await artist.save();
