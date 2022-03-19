@@ -35,7 +35,6 @@ export class TracksComponent implements OnInit {
     const trackHistoryData: TracksHistoryData  = {
       track: id
     };
-
     this.store.dispatch(createTracksHistoryRequest({tracksHistoryData: trackHistoryData}));
   }
 }

@@ -27,7 +27,9 @@ export class TracksHistoryService {
     );
   }
 
-  createTrackHistory(tracksHistoryData: TracksHistoryData) {
-    return this.http.post(environment.apiUrl + '/track_history', tracksHistoryData);
+  createTrackHistory(tracksHistoryData: TracksHistoryData, token: string) {
+    return this.http.post(environment.apiUrl + '/track_history', tracksHistoryData, {
+      headers: new HttpHeaders({'Authorization': token})
+    });
   }
 }

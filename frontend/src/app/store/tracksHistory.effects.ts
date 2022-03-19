@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, NEVER, of, tap, withLatestFrom } from 'rxjs';
+import { map, mergeMap, NEVER, tap, withLatestFrom } from 'rxjs';
 import { TracksHistoryService } from '../services/tracks-history.service';
 import { Router } from '@angular/router';
 import { HelpersService } from '../services/helpers.service';
 import { Store } from '@ngrx/store';
 import { AppState } from './types';
 import {
-  createTrackHistoryFailure,
   createTrackHistorySuccess,
   createTracksHistoryRequest,
   fetchTracksHistoryRequest,
@@ -26,20 +25,24 @@ export class TracksHistoryEffects {
           tap(() => this.helpers.openSnackbar('Successful'))
         );
       }
-      tap(() => this.router.navigate(['/']));
+      tap(() => this.router.navigate(['/login']));
       return NEVER;
     }))
   )
 
   createTracksHistory = createEffect(() => this.actions.pipe(
     ofType(createTracksHistoryRequest),
-    mergeMap(({tracksHistoryData}) => this.tracksHistoryService.createTrackHistory(tracksHistoryData).pipe(
-      map(() => createTrackHistorySuccess()),
-      tap(() => this.router.navigate(['/'])),
-      catchError(() => of(createTrackHistoryFailure({error: 'Wrong data'})))
-    ))
-  ));
-
+    withLatestFrom(this.store.select(state => state.users.user)),
+    mergeMap(([{tracksHistoryData}, user]) => {
+      if (user) {
+        return this.tracksHistoryService.createTrackHistory(tracksHistoryData, user.token).pipe(
+          map(() => createTrackHistorySuccess()),
+          tap(() => this.helpers.openSnackbar('Play'))
+        );
+      }
+      return NEVER;
+    }))
+  );
 
   constructor(
     private actions: Actions,

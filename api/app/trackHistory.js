@@ -10,6 +10,18 @@ router.get("/", auth, async (req, res, next) => {
         const tracksHistory = await TrackHistory
             .find({user: req.user._id})
             .sort({_id: -1})
+            .populate({
+                path:  "track"  ,
+                select: 'name',
+                populate: {
+                    path:  'album',
+                    select: 'artist',
+                    populate: {
+                        path: 'artist',
+                        select: 'name',
+                    }
+                }
+            })
         return res.send(tracksHistory);
     } catch(e) {
         next(e);

@@ -22,9 +22,9 @@
     >
       <mat-card>
         <mat-card-title>{{ trackHistory.track.name }}</mat-card-title>
+        <p>Artist: {{ trackHistory.track.album.artist.name }}</p>
         <mat-card-subtitle>{{ trackHistory.track.duration }}</mat-card-subtitle>
-        <p>{{ trackHistory.datetime }}</p>
-        <p>{{ trackHistory.user.displayName }}</p>
+        <p>Time: {{ trackHistory.datetime.substr(0,10) }} {{ trackHistory.datetime.substr(11,5) }}</p>
       </mat-card>
     </div>
   </div>

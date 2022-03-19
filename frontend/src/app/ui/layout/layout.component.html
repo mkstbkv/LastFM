@@ -39,7 +39,8 @@
 </mat-sidenav-container>
 
 <ng-template #userMenu>
-  <nav>
+  <nav fxLayout="row">
+    <h3>{{(user | async)?.displayName }}</h3>
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>account_circle</mat-icon>
     </button>
