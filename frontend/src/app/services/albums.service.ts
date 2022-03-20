@@ -8,8 +8,6 @@ import { Album, AlbumData, ApiAlbumData } from '../models/album.model';
   providedIn: 'root'
 })
 export class AlbumsService {
-
-
   constructor(private http: HttpClient) { }
 
   getAlbums(id: string) {

@@ -20,8 +20,8 @@ export class ArtistsComponent implements OnInit {
     this.loading = store.select(state => state.artists.fetchLoading);
     this.error = store.select(state => state.artists.fetchError);
   }
-
-  ngOnInit(): void {
+  ngOnInit() {
     this.store.dispatch(fetchArtistsRequest());
   }
 }
+

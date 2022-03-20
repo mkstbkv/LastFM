@@ -25,6 +25,4 @@ export class AlbumsComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(fetchAlbumsRequest({id: this.route.snapshot.params['id']}));
   }
-
-
 }

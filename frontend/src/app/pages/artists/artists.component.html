@@ -23,10 +23,15 @@
       <mat-card style="max-width: 400px">
         <mat-card-header>
           <mat-card-title>{{ artist.name }}</mat-card-title>
+          <mat-card-subtitle *ngIf="!artist.is_published" >Unpublished</mat-card-subtitle>
         </mat-card-header>
         <img mat-card-image [src]="artist.image  | image" [alt]="'Photo of ' + artist.name">
         <mat-card-actions>
           <a [routerLink]="['/albums/', artist.id]" mat-raised-button color="primary">View Albums</a>
+          <div *appHasRoles="['admin']">
+            <button mat-raised-button color="accent" *ngIf="!artist.is_published">Publish</button>
+            <button mat-raised-button color="warn">Delete</button>
+          </div>
         </mat-card-actions>
       </mat-card>
     </div>

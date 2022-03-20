@@ -19,16 +19,17 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-router.get('/', auth, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
+        const role = req.get('Role');
         const query = {};
+
+        if (role === 'user') {
+            query.is_published = true
+        }
 
         if (req.query.artist) {
             query.artist = req.query.artist;
-        }
-
-        if (req.user.role === 'user') {
-            query.is_published = true
         }
 
         const albums = await Album.find(query).populate("artist", "name info image");
@@ -39,15 +40,13 @@ router.get('/', auth, async (req, res, next) => {
     }
 });
 
-router.get('/:id', auth, async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
     try {
-        const query = {
-            _id: req.params.id
-        }
-        if (req.user.role === 'user') {
+        const role = req.get('Role');
+        const query = {_id: req.params.id};
+        if (role === 'user') {
             query.is_published = true
         }
-
         const album = await Album.find(query).populate("artist", "name info image");
 
         if (!album) {

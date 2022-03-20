@@ -6,9 +6,14 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-router.get("/", auth, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
     try {
+        const role = req.get('Role');
         const query = {};
+
+        if (role === 'user') {
+            query.is_published = true
+        }
 
         if (req.query.album) {
             query.album = req.query.album;
@@ -37,11 +42,6 @@ router.get("/", auth, async (req, res, next) => {
             }
 
             return res.send(tracks);
-
-        }
-
-        if (req.user.role === 'user') {
-            query.is_published = true
         }
 
         const tracks = await Track.find(query).populate("album", "title artist");

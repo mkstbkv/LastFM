@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs';
 import { TracksHistory, TracksHistoryData } from '../models/tracksHistory.model';
@@ -10,10 +10,8 @@ import { TracksHistory, TracksHistoryData } from '../models/tracksHistory.model'
 export class TracksHistoryService {
   constructor(private http: HttpClient) { }
 
-  getTracksHistory(token: string) {
-    return this.http.get<TracksHistory[]>(environment.apiUrl + '/track_history', {
-      headers: new HttpHeaders({'Authorization': token})
-    }).pipe(
+  getTracksHistory() {
+    return this.http.get<TracksHistory[]>(environment.apiUrl + '/track_history').pipe(
       map(response => {
         return response.map(trackHistoryData => {
           return new TracksHistory(
@@ -27,9 +25,7 @@ export class TracksHistoryService {
     );
   }
 
-  createTrackHistory(tracksHistoryData: TracksHistoryData, token: string) {
-    return this.http.post(environment.apiUrl + '/track_history', tracksHistoryData, {
-      headers: new HttpHeaders({'Authorization': token})
-    });
+  createTrackHistory(tracksHistoryData: TracksHistoryData) {
+    return this.http.post(environment.apiUrl + '/track_history', tracksHistoryData);
   }
 }
