@@ -34,6 +34,28 @@ router.get("/", async (req, res, next) => {
     }
 });
 
+
+router.post('/:id/publish', auth, async (req, res, next) => {
+    try {
+        const artist = await Artist.findById(req.params.id);
+        if (req.user.role === 'admin') {
+            artist.is_published = true;
+            artist.save();
+
+            const query = {};
+            if (req.user.role === 'user') {
+                query.is_published = true
+            }
+
+            const artists = await Artist.find(query);
+            return res.send(artists);
+        }
+        return res.status(403).send({message: 'No access!'});
+    } catch (e) {
+        next(e);
+    }
+});
+
 router.post("/", auth, upload.single('image'), async (req, res, next) => {
     try {
         if (!req.body.name) {
@@ -59,6 +81,24 @@ router.post("/", auth, upload.single('image'), async (req, res, next) => {
         await artist.save();
         return res.send(artist);
     } catch(e) {
+        next(e);
+    }
+});
+
+router.delete('/:id', auth, async (req, res, next) => {
+    try {
+        if (req.user.role === 'admin') {
+            await Artist.deleteOne({_id : req.params.id});
+            const query = {};
+            if (req.user.role === 'user') {
+                query.is_published = true
+            }
+
+            const artists = await Artist.find(query);
+            return res.send(artists);
+        }
+        return res.status(403).send({message: 'No access!'});
+    } catch (e) {
         next(e);
     }
 });

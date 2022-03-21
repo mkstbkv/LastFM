@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Album } from '../../models/album.model';
-import { fetchAlbumsRequest } from '../../store/albums.actions';
+import { deleteAlbumRequest, fetchAlbumsRequest, publishAlbumRequest } from '../../store/albums.actions';
 
 @Component({
   selector: 'app-artist-details',
@@ -24,5 +24,13 @@ export class AlbumsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(fetchAlbumsRequest({id: this.route.snapshot.params['id']}));
+  }
+
+  publishAlbum(id: string) {
+    this.store.dispatch(publishAlbumRequest({id}));
+  }
+
+  deleteAlbum(id: string) {
+    this.store.dispatch(deleteAlbumRequest({id}));
   }
 }

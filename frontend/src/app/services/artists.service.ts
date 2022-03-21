@@ -38,4 +38,36 @@ export class ArtistsService {
 
     return this.http.post(environment.apiUrl + '/artists', formData);
   }
+
+  deleteArtist(id: string) {
+    return this.http.delete<ApiArtistData[]>(environment.apiUrl + '/artists/' + id).pipe(
+      map(response => {
+        return response.map(artistData => {
+          return new Artist(
+            artistData._id,
+            artistData.name,
+            artistData.info,
+            artistData.image,
+            artistData.is_published
+          );
+        });
+      }))
+  }
+
+  publishArtist(id: string) {
+    return this.http.post<ApiArtistData[]>(environment.apiUrl + '/artists/' + id + '/publish', {is_published: true})
+      .pipe(
+        map(response => {
+          return response.map(artistData => {
+            return new Artist(
+              artistData._id,
+              artistData.name,
+              artistData.info,
+              artistData.image,
+              artistData.is_published
+            );
+          });
+        })
+      )
+  }
 }

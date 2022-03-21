@@ -37,4 +37,37 @@ export class TracksService {
 
     return this.http.post(environment.apiUrl + '/tracks', formData);
   }
+
+  deleteTrack(id: string) {
+    return this.http.delete<Track[]>(environment.apiUrl + '/tracks/' + id).pipe(
+      map(response => {
+        return response.map(trackData => {
+          return new Track(
+            trackData._id,
+            trackData.name,
+            trackData.album,
+            trackData.duration,
+            trackData.is_published
+          );
+        });
+      })
+    );
+  }
+
+  publishTrack(id: string) {
+    return this.http.post<Track[]>(environment.apiUrl + '/tracks/' + id + '/publish', {is_published: true})
+      .pipe(
+        map(response => {
+          return response.map(trackData => {
+            return new Track(
+              trackData._id,
+              trackData.name,
+              trackData.album,
+              trackData.duration,
+              trackData.is_published
+            );
+          });
+        })
+      );
+  }
 }

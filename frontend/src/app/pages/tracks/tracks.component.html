@@ -22,15 +22,20 @@
     >
       <mat-card>
         <mat-card-title>{{ track.name }}</mat-card-title>
-        <mat-card-subtitle *ngIf="!track.is_published" >Unpublished</mat-card-subtitle>
+        <div *appHasRoles="['admin']">
+          <mat-card-subtitle  *ngIf="!track.is_published" >Unpublished</mat-card-subtitle>
+        </div>
         <mat-card-subtitle>{{ track.duration }}</mat-card-subtitle>
         <mat-card-actions>
           <button mat-raised-button (click)="createTrackHistory(track._id)">
             PLAY
           </button>
           <div *appHasRoles="['admin']">
-            <button mat-raised-button color="accent" *ngIf="!track.is_published">Publish</button>
-            <button mat-raised-button color="warn">Delete</button>
+            <button mat-raised-button color="accent"
+                    *ngIf="!track.is_published"
+                    (click)="publishTrack(track._id)"
+            >Publish</button>
+            <button mat-raised-button color="warn" (click)="deleteTrack(track._id)">Delete</button>
           </div>
         </mat-card-actions>
       </mat-card>

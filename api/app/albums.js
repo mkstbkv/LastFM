@@ -59,6 +59,29 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+router.post('/:id/publish', auth, async (req, res, next) => {
+    try {
+        const album = await Album.findById(req.params.id);
+        const query = {artist: album.artist._id};
+
+        if (req.user.role === 'admin') {
+            album.is_published = true;
+            album.save();
+
+            await Album.deleteOne(album);
+            if (req.user.role === 'user') {
+                query.is_published = true
+            }
+            const albums = await Album.find(query);
+            return res.send(albums);
+        }
+
+        return res.status(403).send({message: 'No access!'});
+    } catch (e) {
+        next(e);
+    }
+});
+
 router.post('/', auth, upload.single('image'), async (req, res, next) => {
     try {
         if (!req.body.title || !req.body.release) {
@@ -86,6 +109,24 @@ router.post('/', auth, upload.single('image'), async (req, res, next) => {
         await album.save();
 
         return res.send({message: 'Created new album', id: album._id});
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.delete('/:id', auth, async (req, res, next) => {
+    try {
+        const album = await Album.findById(req.params.id);
+        const query = {artist: album.artist._id};
+        if (req.user.role === 'admin') {
+            await Album.deleteOne(album);
+            if (req.user.role === 'user') {
+                query.is_published = true
+            }
+            const albums = await Album.find(query);
+            return res.send(albums);
+        }
+        return res.status(403).send({message: 'No access!'});
     } catch (e) {
         next(e);
     }

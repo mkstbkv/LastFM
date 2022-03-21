@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Artist } from '../../models/artist.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { fetchArtistsRequest } from '../../store/artists.actions';
+import { deleteArtistRequest, fetchArtistsRequest, publishArtistRequest } from '../../store/artists.actions';
 
 @Component({
   selector: 'app-artists',
@@ -20,8 +20,16 @@ export class ArtistsComponent implements OnInit {
     this.loading = store.select(state => state.artists.fetchLoading);
     this.error = store.select(state => state.artists.fetchError);
   }
+
   ngOnInit() {
     this.store.dispatch(fetchArtistsRequest());
+  }
+
+  publishArtist(id: string) {
+    this.store.dispatch(publishArtistRequest({id}));
+  }
+  deleteArtist(id: string) {
+    this.store.dispatch(deleteArtistRequest({id}));
   }
 }
 

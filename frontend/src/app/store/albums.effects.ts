@@ -7,9 +7,15 @@ import {
   createAlbumFailure,
   createAlbumRequest,
   createAlbumSuccess,
+  deleteAlbumFailure,
+  deleteAlbumRequest,
+  deleteAlbumSuccess,
   fetchAlbumsFailure,
   fetchAlbumsRequest,
-  fetchAlbumsSuccess
+  fetchAlbumsSuccess,
+  publishAlbumFailure,
+  publishAlbumRequest,
+  publishAlbumSuccess
 } from './albums.actions';
 import { AlbumsService } from '../services/albums.service';
 
@@ -31,6 +37,22 @@ export class AlbumsEffects {
       map(() => createAlbumSuccess()),
       tap(() => this.router.navigate(['/'])),
       catchError(() => of(createAlbumFailure({error: 'Wrong data'})))
+    ))
+  ));
+
+  publishAlbum = createEffect(() => this.actions.pipe(
+    ofType(publishAlbumRequest),
+    mergeMap( ({id}) => this.albumsService.publishAlbum(id).pipe(
+      map(albums => publishAlbumSuccess({albums})),
+      catchError(() => of(publishAlbumFailure({error: 'No access!'})))
+    ))
+  ));
+
+  deleteAlbum = createEffect(() => this.actions.pipe(
+    ofType(deleteAlbumRequest),
+    mergeMap(({id}) => this.albumsService.deleteAlbum(id).pipe(
+      map(albums => deleteAlbumSuccess({albums})),
+      catchError(() => of(deleteAlbumFailure({error: 'No access!'})))
     ))
   ));
 

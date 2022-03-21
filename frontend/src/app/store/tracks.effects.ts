@@ -6,9 +6,15 @@ import {
   createTrackFailure,
   createTrackRequest,
   createTrackSuccess,
+  deleteTrackFailure,
+  deleteTrackRequest,
+  deleteTrackSuccess,
   fetchTracksFailure,
   fetchTracksRequest,
-  fetchTracksSuccess
+  fetchTracksSuccess,
+  publishTrackFailure,
+  publishTrackRequest,
+  publishTrackSuccess
 } from './tracks.actions';
 import { Router } from '@angular/router';
 
@@ -30,6 +36,22 @@ export class TracksEffects {
       map(() => createTrackSuccess()),
       tap(() => this.router.navigate(['/'])),
       catchError(() => of(createTrackFailure({error: 'Wrong data'})))
+    ))
+  ));
+
+  publishTrack = createEffect(() => this.actions.pipe(
+    ofType(publishTrackRequest),
+    mergeMap( ({id}) => this.tracksService.publishTrack(id).pipe(
+      map(tracks => publishTrackSuccess({tracks})),
+      catchError(() => of(publishTrackFailure({error: 'No access!'})))
+    ))
+  ));
+
+  deleteTrack = createEffect(() => this.actions.pipe(
+    ofType(deleteTrackRequest),
+    mergeMap(({id}) => this.tracksService.deleteTrack(id).pipe(
+      map(tracks => deleteTrackSuccess({tracks})),
+      catchError(() => of(deleteTrackFailure({error: 'No access!'})))
     ))
   ));
 

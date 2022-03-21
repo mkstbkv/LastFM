@@ -4,11 +4,17 @@ import {
   createArtistFailure,
   createArtistRequest,
   createArtistSuccess,
+  deleteArtistFailure,
+  deleteArtistRequest,
+  deleteArtistSuccess,
   fetchArtistsFailure,
   fetchArtistsRequest,
-  fetchArtistsSuccess
+  fetchArtistsSuccess,
+  publishArtistFailure,
+  publishArtistRequest,
+  publishArtistSuccess
 } from './artists.actions';
-import { mergeMap, map, catchError, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { ArtistsService } from '../services/artists.service';
 
@@ -30,6 +36,22 @@ export class ArtistsEffects {
       map(() => createArtistSuccess()),
       tap(() => this.router.navigate(['/'])),
       catchError(() => of(createArtistFailure({error: 'Wrong data'})))
+    ))
+  ));
+
+  publishArtist = createEffect(() => this.actions.pipe(
+    ofType(publishArtistRequest),
+    mergeMap( ({id}) => this.artistsService.publishArtist(id).pipe(
+      map(artists => publishArtistSuccess({artists})),
+      catchError(() => of(publishArtistFailure({error: 'No access!'})))
+    ))
+  ));
+
+  deleteArtist = createEffect(() => this.actions.pipe(
+    ofType(deleteArtistRequest),
+    mergeMap(({id}) => this.artistsService.deleteArtist(id).pipe(
+      map(artists => deleteArtistSuccess({artists})),
+      catchError(() => of(deleteArtistFailure({error: 'No access!'})))
     ))
   ));
 

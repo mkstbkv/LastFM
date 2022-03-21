@@ -37,4 +37,40 @@ export class AlbumsService {
     });
 
     return this.http.post(environment.apiUrl + '/albums', formData);
-  }}
+  }
+
+  deleteAlbum(id: string) {
+    return this.http.delete<ApiAlbumData[]>(environment.apiUrl + '/albums/' + id).pipe(
+      map(response => {
+        return response.map(albumData => {
+          return new Album(
+            albumData._id,
+            albumData.title,
+            albumData.artist,
+            albumData.release,
+            albumData.image,
+            albumData.is_published
+          );
+        });
+      })
+    );
+  }
+
+  publishAlbum(id: string) {
+    return this.http.post<ApiAlbumData[]>(environment.apiUrl + '/albums/' + id + '/publish', {is_published: true})
+      .pipe(
+        map(response => {
+          return response.map(albumData => {
+            return new Album(
+              albumData._id,
+              albumData.title,
+              albumData.artist,
+              albumData.release,
+              albumData.image,
+              albumData.is_published
+            );
+          });
+        })
+      );
+  }
+}

@@ -89,6 +89,26 @@ router.get("/byAlbum/:albumID", async (req, res, next) => {
 });
 
 
+router.post('/:id/publish', auth, async (req, res, next) => {
+    try {
+        const track = await Track.findById(req.params.id);
+        const query = {album: track.album._id};
+        if (req.user.role === 'admin') {
+            track.is_published = true;
+            track.save();
+            if (req.user.role === 'user') {
+                query.is_published = true
+            }
+            const tracks = await Track.find(query);
+            return res.send(tracks);
+        }
+
+        return res.status(403).send({message: 'No access!'});
+    } catch (e) {
+        next(e);
+    }
+});
+
 
 router.post("/",  auth, async (req, res, next) => {
     try {
@@ -107,6 +127,25 @@ router.post("/",  auth, async (req, res, next) => {
         await track.save();
         return res.send(track);
     } catch(e) {
+        next(e);
+    }
+});
+
+router.delete('/:id', auth, async (req, res, next) => {
+    try {
+        const track = await Track.findById(req.params.id);
+        const query = {album: track.album._id};
+        if (req.user.role === 'admin') {
+            await Track.deleteOne(track);
+            if (req.user.role === 'user') {
+                query.is_published = true
+            }
+            const tracks = await Track.find(query);
+            return res.send(tracks);
+        }
+
+        return res.status(403).send({message: 'No access!'});
+    } catch (e) {
         next(e);
     }
 });

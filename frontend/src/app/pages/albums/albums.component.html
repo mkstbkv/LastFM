@@ -23,15 +23,20 @@
       <mat-card style="max-width: 400px">
         <mat-card-header>
           <mat-card-title>{{ album.title }}</mat-card-title>
-          <mat-card-subtitle *ngIf="!album.is_published" >Unpublished</mat-card-subtitle>
+          <div *appHasRoles="['admin']">
+            <mat-card-subtitle  *ngIf="!album.is_published" >Unpublished</mat-card-subtitle>
+          </div>
         </mat-card-header>
         <img mat-card-image [src]="album.image  | image" [alt]="'Photo of ' + album.title">
         <p><strong>{{ album.release }}</strong></p>
         <mat-card-actions>
           <a routerLink="/tracks/{{album.id}}" mat-raised-button color="primary">All tracks</a>
           <div *appHasRoles="['admin']">
-            <button mat-raised-button color="accent" *ngIf="!album.is_published">Publish</button>
-            <button mat-raised-button color="warn">Delete</button>
+            <button mat-raised-button color="accent"
+                    *ngIf="!album.is_published"
+                    (click)="publishAlbum(album.id)"
+            >Publish</button>
+            <button mat-raised-button color="warn" (click)="deleteAlbum(album.id)">Delete</button>
           </div>
         </mat-card-actions>
       </mat-card>

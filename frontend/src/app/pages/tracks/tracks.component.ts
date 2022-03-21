@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Track } from '../../models/track.model';
-import { fetchTracksRequest } from '../../store/tracks.actions';
+import { deleteTrackRequest, fetchTracksRequest, publishTrackRequest } from '../../store/tracks.actions';
 import { ActivatedRoute } from '@angular/router';
 import { createTracksHistoryRequest } from '../../store/tracksHistory.actions';
 import { TracksHistoryData } from '../../models/tracksHistory.model';
@@ -36,5 +36,13 @@ export class TracksComponent implements OnInit {
       track: id
     };
     this.store.dispatch(createTracksHistoryRequest({tracksHistoryData: trackHistoryData}));
+  }
+
+  publishTrack(id: string) {
+    this.store.dispatch(publishTrackRequest({id}));
+  }
+
+  deleteTrack(id: string) {
+    this.store.dispatch(deleteTrackRequest({id}));
   }
 }

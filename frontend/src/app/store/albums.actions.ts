@@ -28,3 +28,29 @@ export const createAlbumFailure = createAction(
   '[Albums] Create Failure',
   props<{error: string}>()
 );
+
+export const publishAlbumRequest = createAction(
+  '[Albums] Publish Request',
+  props<{id: string}>()
+);
+export const publishAlbumSuccess = createAction(
+  '[Albums] Publish Success',
+  props<{albums: Album[]}>()
+);
+export const publishAlbumFailure = createAction(
+  '[Albums] Publish Failure',
+  props<{error: string}>()
+);
+
+export const deleteAlbumRequest = createAction(
+  '[Albums] Delete Request',
+  props<{id: string}>()
+);
+export const deleteAlbumSuccess = createAction(
+  '[Albums] Delete Success',
+  props<{albums: Album[]}>()
+);
+export const deleteAlbumFailure = createAction(
+  '[Albums] Delete Failure',
+  props<{error: string}>()
+);

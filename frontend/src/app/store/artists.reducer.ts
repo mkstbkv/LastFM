@@ -4,9 +4,15 @@ import {
   createArtistFailure,
   createArtistRequest,
   createArtistSuccess,
+  deleteArtistFailure,
+  deleteArtistRequest,
+  deleteArtistSuccess,
   fetchArtistsFailure,
   fetchArtistsRequest,
-  fetchArtistsSuccess
+  fetchArtistsSuccess,
+  publishArtistFailure,
+  publishArtistRequest,
+  publishArtistSuccess
 } from './artists.actions';
 
 const initialState: ArtistsState = {
@@ -15,6 +21,10 @@ const initialState: ArtistsState = {
   fetchError: null,
   createLoading: false,
   createError: null,
+  publishLoading: false,
+  publishError: null,
+  deleteLoading: false,
+  deleteError: null,
 };
 
 export const artistsReducer = createReducer(
@@ -36,5 +46,28 @@ export const artistsReducer = createReducer(
     ...state,
     createLoading: false,
     createError: error,
-  }))
+  })),
+  on(publishArtistRequest, state => ({...state, publishLoading: true})),
+  on(publishArtistSuccess, (state, {artists}) => ({
+    ...state,
+    publishLoading: false,
+    artists
+  })),
+  on(publishArtistFailure, (state, {error}) => ({
+    ...state,
+    publishLoading: false,
+    publishError: error,
+  })),
+
+  on(deleteArtistRequest, state => ({...state, deleteLoading: true})),
+  on(deleteArtistSuccess, (state, {artists}) => ({
+    ...state,
+    fetchLoading: false,
+    artists
+  })),
+  on(deleteArtistFailure, (state, {error}) => ({
+    ...state,
+    deleteLoading: false,
+    deleteError: error,
+  })),
 );
