@@ -1,5 +1,7 @@
 const express = require('express');
 const Artist = require('../models/Artist');
+const Album = require('../models/Album');
+const Track = require('../models/Track');
 const multer = require("multer");
 const config = require("../config");
 const {nanoid} = require("nanoid");
@@ -88,7 +90,10 @@ router.post("/", auth, upload.single('image'), async (req, res, next) => {
 router.delete('/:id', auth, async (req, res, next) => {
     try {
         if (req.user.role === 'admin') {
+            const albums = await Album.find({artist : req.params.id});
             await Artist.deleteOne({_id : req.params.id});
+            await Album.deleteMany({artist : req.params.id});
+            await Track.deleteMany({album: {$in : albums}});
             const query = {};
             if (req.user.role === 'user') {
                 query.is_published = true

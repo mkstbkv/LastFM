@@ -5,6 +5,7 @@ const { nanoid } = require('nanoid');
 const config = require('../config');
 const auth = require("../middleware/auth");
 const Album = require("../models/Album");
+const Track = require("../models/Track");
 
 const router = express.Router();
 
@@ -120,6 +121,8 @@ router.delete('/:id', auth, async (req, res, next) => {
         const query = {artist: album.artist._id};
         if (req.user.role === 'admin') {
             await Album.deleteOne(album);
+            await Track.deleteMany({album: req.params.id});
+
             if (req.user.role === 'user') {
                 query.is_published = true
             }
