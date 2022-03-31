@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LoginUserData, RegisterUserData, User } from '../models/user.model';
+import { FacebookUserData, LoginUserData, RegisterUserData, User } from '../models/user.model';
 import { environment as env } from '../../environments/environment';
 
 @Injectable({
@@ -19,6 +19,10 @@ export class UsersService {
     });
 
     return this.http.post<User>(env.apiUrl + '/users', formData);
+  }
+
+  loginWithFacebook(userData: FacebookUserData) {
+    return this.http.post<User>(env.apiUrl + '/users/facebookLogin', userData);
   }
 
   login(userData: LoginUserData) {

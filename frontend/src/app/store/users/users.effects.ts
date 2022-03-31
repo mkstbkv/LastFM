@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import {
   loginUserFailure,
   loginUserRequest,
-  loginUserSuccess,
+  loginUserSuccess, loginUserWithFacebookRequest,
   logoutUser,
   logoutUserRequest,
   registerUserFailure,
@@ -40,6 +40,18 @@ export class UsersEffects {
   loginUser = createEffect(() => this.actions.pipe(
     ofType(loginUserRequest),
     mergeMap(({userData}) => this.usersService.login(userData).pipe(
+      map(user => loginUserSuccess({user})),
+      tap(() => {
+        this.helpers.openSnackbar('Login successful');
+        void this.router.navigate(['/']);
+      }),
+      this.helpers.catchServerError(loginUserFailure)
+    ))
+  ))
+
+  loginUserWithFacebook = createEffect(() => this.actions.pipe(
+    ofType(loginUserWithFacebookRequest),
+    mergeMap(({userData}) => this.usersService.loginWithFacebook(userData).pipe(
       map(user => loginUserSuccess({user})),
       tap(() => {
         this.helpers.openSnackbar('Login successful');
