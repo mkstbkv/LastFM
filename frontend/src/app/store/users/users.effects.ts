@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { UsersService } from '../services/users.service';
+import { UsersService } from '../../services/users.service';
 import { Router } from '@angular/router';
 import {
   loginUserFailure,
@@ -14,7 +14,7 @@ import {
 } from './users.actions';
 import { mergeMap, tap } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { HelpersService } from '../services/helpers.service';
+import { HelpersService } from '../../services/helpers.service';
 
 @Injectable()
 export class UsersEffects {

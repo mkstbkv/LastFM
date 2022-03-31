@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { TracksHistory, TracksHistoryData } from '../models/tracksHistory.model';
+import { TracksHistory, TracksHistoryData } from '../../models/tracksHistory.model';
 
 export const fetchTracksHistoryRequest = createAction(
   '[TracksHistory] Fetch Request',

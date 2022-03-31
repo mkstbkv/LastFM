@@ -17,7 +17,9 @@ import {
   publishAlbumRequest,
   publishAlbumSuccess
 } from './albums.actions';
-import { AlbumsService } from '../services/albums.service';
+import { AlbumsService } from '../../services/albums.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../types';
 
 @Injectable()
 export class AlbumsEffects {
@@ -43,7 +45,10 @@ export class AlbumsEffects {
   publishAlbum = createEffect(() => this.actions.pipe(
     ofType(publishAlbumRequest),
     mergeMap( ({id}) => this.albumsService.publishAlbum(id).pipe(
-      map(albums => publishAlbumSuccess({albums})),
+      map(() => publishAlbumSuccess()),
+      tap(() => {
+        // this.store.dispatch(fetchAlbumsRequest({id}));
+      }),
       catchError(() => of(publishAlbumFailure({error: 'No access!'})))
     ))
   ));
@@ -51,12 +56,16 @@ export class AlbumsEffects {
   deleteAlbum = createEffect(() => this.actions.pipe(
     ofType(deleteAlbumRequest),
     mergeMap(({id}) => this.albumsService.deleteAlbum(id).pipe(
-      map(albums => deleteAlbumSuccess({albums})),
+      map(() => deleteAlbumSuccess()),
+      tap(() => {
+        // this.store.dispatch(fetchAlbumsRequest({id}));
+      }),
       catchError(() => of(deleteAlbumFailure({error: 'No access!'})))
     ))
   ));
 
   constructor(
+    private store: Store<AppState>,
     private actions: Actions,
     private albumsService: AlbumsService,
     private router: Router,

@@ -1,8 +1,10 @@
 const express = require('express');
 const Track = require("../models/Track");
+const TrackHistory = require('../models/TrackHistory');
 const Album = require("../models/Album");
 const Artist = require("../models/Artist");
 const auth = require("../middleware/auth");
+const permit = require("../middleware/permit");
 
 const router = express.Router();
 
@@ -89,21 +91,13 @@ router.get("/byAlbum/:albumID", async (req, res, next) => {
 });
 
 
-router.post('/:id/publish', auth, async (req, res, next) => {
+router.post('/:id/publish', auth, permit('admin'), async (req, res, next) => {
     try {
         const track = await Track.findById(req.params.id);
-        const query = {album: track.album._id};
-        if (req.user.role === 'admin') {
-            track.is_published = true;
-            track.save();
-            if (req.user.role === 'user') {
-                query.is_published = true
-            }
-            const tracks = await Track.find(query);
-            return res.send(tracks);
-        }
+        track.is_published = true;
+        track.save();
 
-        return res.status(403).send({message: 'No access!'});
+        return res.send({message: 'OK!'});
     } catch (e) {
         next(e);
     }
@@ -131,20 +125,13 @@ router.post("/",  auth, async (req, res, next) => {
     }
 });
 
-router.delete('/:id', auth, async (req, res, next) => {
+router.delete('/:id', auth, permit('admin'), async (req, res, next) => {
     try {
         const track = await Track.findById(req.params.id);
-        const query = {album: track.album._id};
-        if (req.user.role === 'admin') {
-            await Track.deleteOne(track);
-            if (req.user.role === 'user') {
-                query.is_published = true
-            }
-            const tracks = await Track.find(query);
-            return res.send(tracks);
-        }
+        await Track.deleteOne(track);
+        await TrackHistory.deleteOne({track: track});
 
-        return res.status(403).send({message: 'No access!'});
+        return res.send({message: 'OK!'});
     } catch (e) {
         next(e);
     }

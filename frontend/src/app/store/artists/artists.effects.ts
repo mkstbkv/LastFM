@@ -16,7 +16,9 @@ import {
 } from './artists.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { ArtistsService } from '../services/artists.service';
+import { ArtistsService } from '../../services/artists.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../types';
 
 @Injectable()
 export class ArtistsEffects {
@@ -42,7 +44,10 @@ export class ArtistsEffects {
   publishArtist = createEffect(() => this.actions.pipe(
     ofType(publishArtistRequest),
     mergeMap( ({id}) => this.artistsService.publishArtist(id).pipe(
-      map(artists => publishArtistSuccess({artists})),
+      map(() => publishArtistSuccess()),
+      tap(() => {
+        this.store.dispatch(fetchArtistsRequest());
+      }),
       catchError(() => of(publishArtistFailure({error: 'No access!'})))
     ))
   ));
@@ -50,12 +55,16 @@ export class ArtistsEffects {
   deleteArtist = createEffect(() => this.actions.pipe(
     ofType(deleteArtistRequest),
     mergeMap(({id}) => this.artistsService.deleteArtist(id).pipe(
-      map(artists => deleteArtistSuccess({artists})),
+      map(() => deleteArtistSuccess()),
+      tap(() => {
+        this.store.dispatch(fetchArtistsRequest());
+      }),
       catchError(() => of(deleteArtistFailure({error: 'No access!'})))
     ))
   ));
 
   constructor(
+    private store: Store<AppState>,
     private actions: Actions,
     private artistsService: ArtistsService,
     private router: Router

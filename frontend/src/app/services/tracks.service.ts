@@ -27,47 +27,14 @@ export class TracksService {
   }
 
   createTrack(trackData: TrackData) {
-    const formData = new FormData();
-
-    Object.keys(trackData).forEach(key => {
-      if (trackData[key] !== null) {
-        formData.append(key, trackData[key]);
-      }
-    });
-
-    return this.http.post(environment.apiUrl + '/tracks', formData);
+    return this.http.post(environment.apiUrl + '/tracks', trackData);
   }
 
   deleteTrack(id: string) {
-    return this.http.delete<Track[]>(environment.apiUrl + '/tracks/' + id).pipe(
-      map(response => {
-        return response.map(trackData => {
-          return new Track(
-            trackData._id,
-            trackData.name,
-            trackData.album,
-            trackData.duration,
-            trackData.is_published
-          );
-        });
-      })
-    );
+    return this.http.delete<Track[]>(environment.apiUrl + '/tracks/' + id)
   }
 
   publishTrack(id: string) {
     return this.http.post<Track[]>(environment.apiUrl + '/tracks/' + id + '/publish', {is_published: true})
-      .pipe(
-        map(response => {
-          return response.map(trackData => {
-            return new Track(
-              trackData._id,
-              trackData.name,
-              trackData.album,
-              trackData.duration,
-              trackData.is_published
-            );
-          });
-        })
-      );
   }
 }

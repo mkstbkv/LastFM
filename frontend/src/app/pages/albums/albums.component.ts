@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Album } from '../../models/album.model';
-import { deleteAlbumRequest, fetchAlbumsRequest, publishAlbumRequest } from '../../store/albums.actions';
+import { deleteAlbumRequest, fetchAlbumsRequest, publishAlbumRequest } from '../../store/albums/albums.actions';
 
 @Component({
   selector: 'app-artist-details',

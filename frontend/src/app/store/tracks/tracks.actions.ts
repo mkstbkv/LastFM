@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Track, TrackData } from '../models/track.model';
+import { Track, TrackData } from '../../models/track.model';
 
 export const fetchTracksRequest = createAction(
   '[Tracks] Fetch Request',
@@ -32,7 +32,6 @@ export const publishTrackRequest = createAction(
 );
 export const publishTrackSuccess = createAction(
   '[Tracks] Publish Success',
-  props<{tracks: Track[]}>()
 );
 export const publishTrackFailure = createAction(
   '[Tracks] Publish Failure',
@@ -44,7 +43,6 @@ export const deleteTrackRequest = createAction(
 );
 export const deleteTrackSuccess = createAction(
   '[Tracks] Delete Success',
-  props<{tracks: Track[]}>()
 );
 export const deleteTrackFailure = createAction(
   '[Tracks] Delete Failure',

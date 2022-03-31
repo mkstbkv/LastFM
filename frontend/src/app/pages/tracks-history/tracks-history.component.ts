@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { TracksHistory } from '../../models/tracksHistory.model';
-import { fetchTracksHistoryRequest } from '../../store/tracksHistory.actions';
+import { fetchTracksHistoryRequest } from '../../store/tracksHistory/tracksHistory.actions';
 
 @Component({
   selector: 'app-tracks-history',

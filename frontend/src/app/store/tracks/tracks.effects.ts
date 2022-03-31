@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { TracksService } from '../services/tracks.service';
+import { TracksService } from '../../services/tracks.service';
 import {
   createTrackFailure,
   createTrackRequest,
@@ -17,6 +17,8 @@ import {
   publishTrackSuccess
 } from './tracks.actions';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../types';
 
 @Injectable()
 export class TracksEffects {
@@ -42,7 +44,10 @@ export class TracksEffects {
   publishTrack = createEffect(() => this.actions.pipe(
     ofType(publishTrackRequest),
     mergeMap( ({id}) => this.tracksService.publishTrack(id).pipe(
-      map(tracks => publishTrackSuccess({tracks})),
+      map(() => publishTrackSuccess()),
+      tap(() => {
+        // this.store.dispatch(fetchTracksRequest({id}));
+      }),
       catchError(() => of(publishTrackFailure({error: 'No access!'})))
     ))
   ));
@@ -50,12 +55,16 @@ export class TracksEffects {
   deleteTrack = createEffect(() => this.actions.pipe(
     ofType(deleteTrackRequest),
     mergeMap(({id}) => this.tracksService.deleteTrack(id).pipe(
-      map(tracks => deleteTrackSuccess({tracks})),
+      map(() => deleteTrackSuccess()),
+      tap(() => {
+        // this.store.dispatch(fetchTracksRequest({id}));
+      }),
       catchError(() => of(deleteTrackFailure({error: 'No access!'})))
     ))
   ));
 
   constructor(
+    private store: Store<AppState>,
     private actions: Actions,
     private tracksService: TracksService,
     private router: Router

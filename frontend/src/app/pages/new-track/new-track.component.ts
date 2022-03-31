@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Album } from '../../models/album.model';
 import { TrackData } from '../../models/track.model';
-import { createTrackRequest } from '../../store/tracks.actions';
-import { fetchAlbumsRequest } from '../../store/albums.actions';
+import { createTrackRequest } from '../../store/tracks/tracks.actions';
+import { fetchAlbumsRequest } from '../../store/albums/albums.actions';
 
 @Component({
   selector: 'app-new-track',

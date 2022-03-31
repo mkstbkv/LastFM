@@ -6,6 +6,8 @@ const config = require('../config');
 const auth = require("../middleware/auth");
 const Album = require("../models/Album");
 const Track = require("../models/Track");
+const permit = require("../middleware/permit");
+const TrackHistory = require("../models/TrackHistory");
 
 const router = express.Router();
 
@@ -60,24 +62,13 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-router.post('/:id/publish', auth, async (req, res, next) => {
+router.post('/:id/publish', auth, permit('admin'), async (req, res, next) => {
     try {
         const album = await Album.findById(req.params.id);
-        const query = {artist: album.artist._id};
+        album.is_published = true;
+        album.save();
 
-        if (req.user.role === 'admin') {
-            album.is_published = true;
-            album.save();
-
-            await Album.deleteOne(album);
-            if (req.user.role === 'user') {
-                query.is_published = true
-            }
-            const albums = await Album.find(query);
-            return res.send(albums);
-        }
-
-        return res.status(403).send({message: 'No access!'});
+        return res.send({message: 'OK!'});
     } catch (e) {
         next(e);
     }
@@ -115,21 +106,14 @@ router.post('/', auth, upload.single('image'), async (req, res, next) => {
     }
 });
 
-router.delete('/:id', auth, async (req, res, next) => {
+router.delete('/:id', auth, permit('admin'), async (req, res, next) => {
     try {
         const album = await Album.findById(req.params.id);
-        const query = {artist: album.artist._id};
-        if (req.user.role === 'admin') {
-            await Album.deleteOne(album);
-            await Track.deleteMany({album: req.params.id});
-
-            if (req.user.role === 'user') {
-                query.is_published = true
-            }
-            const albums = await Album.find(query);
-            return res.send(albums);
-        }
-        return res.status(403).send({message: 'No access!'});
+        await Album.deleteOne(album);
+        const tracks = await Track.find({album: req.params.id});
+        await Track.deleteMany({album: req.params.id});
+        await TrackHistory.deleteMany({track: {$in : tracks}});
+        return res.send({message: 'OK!'});
     } catch (e) {
         next(e);
     }

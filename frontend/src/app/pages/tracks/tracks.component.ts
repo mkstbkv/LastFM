@@ -3,9 +3,9 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Track } from '../../models/track.model';
-import { deleteTrackRequest, fetchTracksRequest, publishTrackRequest } from '../../store/tracks.actions';
+import { deleteTrackRequest, fetchTracksRequest, publishTrackRequest } from '../../store/tracks/tracks.actions';
 import { ActivatedRoute } from '@angular/router';
-import { createTracksHistoryRequest } from '../../store/tracksHistory.actions';
+import { createTracksHistoryRequest } from '../../store/tracksHistory/tracksHistory.actions';
 import { TracksHistoryData } from '../../models/tracksHistory.model';
 
 @Component({

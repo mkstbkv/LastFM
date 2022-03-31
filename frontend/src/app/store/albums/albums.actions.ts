@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Album, AlbumData } from '../models/album.model';
+import { Album, AlbumData } from '../../models/album.model';
 
 export const fetchAlbumsRequest = createAction('[Albums] Fetch Request',
   props<{id: string}>()
@@ -34,8 +34,7 @@ export const publishAlbumRequest = createAction(
   props<{id: string}>()
 );
 export const publishAlbumSuccess = createAction(
-  '[Albums] Publish Success',
-  props<{albums: Album[]}>()
+  '[Albums] Publish Success'
 );
 export const publishAlbumFailure = createAction(
   '[Albums] Publish Failure',
@@ -47,8 +46,7 @@ export const deleteAlbumRequest = createAction(
   props<{id: string}>()
 );
 export const deleteAlbumSuccess = createAction(
-  '[Albums] Delete Success',
-  props<{albums: Album[]}>()
+  '[Albums] Delete Success'
 );
 export const deleteAlbumFailure = createAction(
   '[Albums] Delete Failure',

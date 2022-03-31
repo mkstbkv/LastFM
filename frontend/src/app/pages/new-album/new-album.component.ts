@@ -5,8 +5,8 @@ import { AppState } from '../../store/types';
 import { Artist } from '../../models/artist.model';
 import { NgForm } from '@angular/forms';
 import { AlbumData } from '../../models/album.model';
-import { createAlbumRequest } from '../../store/albums.actions';
-import { fetchArtistsRequest } from '../../store/artists.actions';
+import { createAlbumRequest } from '../../store/albums/albums.actions';
+import { fetchArtistsRequest } from '../../store/artists/artists.actions';
 
 @Component({
   selector: 'app-new-album',

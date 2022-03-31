@@ -2,11 +2,13 @@ const express = require('express');
 const Artist = require('../models/Artist');
 const Album = require('../models/Album');
 const Track = require('../models/Track');
+const TrackHistory = require('../models/TrackHistory');
 const multer = require("multer");
 const config = require("../config");
 const {nanoid} = require("nanoid");
 const path = require("path");
 const auth = require("../middleware/auth");
+const permit = require("../middleware/permit");
 
 const router = express.Router();
 
@@ -37,22 +39,12 @@ router.get("/", async (req, res, next) => {
 });
 
 
-router.post('/:id/publish', auth, async (req, res, next) => {
+router.post('/:id/publish', auth, permit('admin'), async (req, res, next) => {
     try {
         const artist = await Artist.findById(req.params.id);
-        if (req.user.role === 'admin') {
-            artist.is_published = true;
-            artist.save();
-
-            const query = {};
-            if (req.user.role === 'user') {
-                query.is_published = true
-            }
-
-            const artists = await Artist.find(query);
-            return res.send(artists);
-        }
-        return res.status(403).send({message: 'No access!'});
+        artist.is_published = true;
+        artist.save();
+        return res.send({message: 'OK!'});
     } catch (e) {
         next(e);
     }
@@ -87,22 +79,16 @@ router.post("/", auth, upload.single('image'), async (req, res, next) => {
     }
 });
 
-router.delete('/:id', auth, async (req, res, next) => {
+router.delete('/:id', auth, permit('admin'), async (req, res, next) => {
     try {
-        if (req.user.role === 'admin') {
-            const albums = await Album.find({artist : req.params.id});
-            await Artist.deleteOne({_id : req.params.id});
-            await Album.deleteMany({artist : req.params.id});
-            await Track.deleteMany({album: {$in : albums}});
-            const query = {};
-            if (req.user.role === 'user') {
-                query.is_published = true
-            }
+        const albums = await Album.find({artist : req.params.id});
+        await Artist.deleteOne({_id : req.params.id});
+        await Album.deleteMany({artist : req.params.id});
+        const tracks = await Track.find({album: {$in : albums}});
+        await Track.deleteMany({album: {$in : albums}});
+        await TrackHistory.deleteMany({track: {$in : tracks}});
 
-            const artists = await Artist.find(query);
-            return res.send(artists);
-        }
-        return res.status(403).send({message: 'No access!'});
+        return res.send({message: 'OK!'});
     } catch (e) {
         next(e);
     }

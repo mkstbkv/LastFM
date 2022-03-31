@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Observable, Subscription } from 'rxjs';
 import { RegisterError, RegisterUserData } from '../../models/user.model';
-import { registerUserRequest } from '../../store/users.actions';
+import { registerUserRequest } from '../../store/users/users.actions';
 
 @Component({
   selector: 'app-register',

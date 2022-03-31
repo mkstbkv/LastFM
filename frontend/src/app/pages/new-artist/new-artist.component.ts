@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { createArtistRequest } from '../../store/artists.actions';
+import { createArtistRequest } from '../../store/artists/artists.actions';
 import { ArtistData } from '../../models/artist.model';
 
 @Component({

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, mergeMap, tap } from 'rxjs';
-import { TracksHistoryService } from '../services/tracks-history.service';
+import { TracksHistoryService } from '../../services/tracks-history.service';
 import { Router } from '@angular/router';
-import { HelpersService } from '../services/helpers.service';
+import { HelpersService } from '../../services/helpers.service';
 import { Store } from '@ngrx/store';
-import { AppState } from './types';
+import { AppState } from '../types';
 import {
   createTrackHistoryFailure,
   createTrackHistorySuccess,

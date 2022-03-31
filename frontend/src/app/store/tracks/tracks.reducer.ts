@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { TracksState } from './types';
+import { TracksState } from '../types';
 import {
   createTrackFailure,
   createTrackRequest,
@@ -48,10 +48,9 @@ export const tracksReducer = createReducer(
     createError: error,
   })),
   on(publishTrackRequest, state => ({...state, publishLoading: true})),
-  on(publishTrackSuccess, (state, {tracks}) => ({
+  on(publishTrackSuccess, state => ({
     ...state,
     publishLoading: false,
-    tracks
   })),
   on(publishTrackFailure, (state, {error}) => ({
     ...state,
@@ -60,10 +59,9 @@ export const tracksReducer = createReducer(
   })),
 
   on(deleteTrackRequest, state => ({...state, deleteLoading: true})),
-  on(deleteTrackSuccess, (state, {tracks}) => ({
+  on(deleteTrackSuccess, state => ({
     ...state,
     fetchLoading: false,
-    tracks
   })),
   on(deleteTrackFailure, (state, {error}) => ({
     ...state,

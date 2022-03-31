@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { TracksHistoryState } from './types';
+import { TracksHistoryState } from '../types';
 import {
   createTrackHistoryFailure,
   createTrackHistorySuccess,

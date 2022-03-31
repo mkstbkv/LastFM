@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Artist } from '../../models/artist.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
-import { deleteArtistRequest, fetchArtistsRequest, publishArtistRequest } from '../../store/artists.actions';
+import { deleteArtistRequest, fetchArtistsRequest, publishArtistRequest } from '../../store/artists/artists.actions';
 
 @Component({
   selector: 'app-artists',

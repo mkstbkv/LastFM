@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Artist, ArtistData } from '../models/artist.model';
+import { Artist, ArtistData } from '../../models/artist.model';
 
 export const fetchArtistsRequest = createAction('[Artists] Fetch Request');
 export const fetchArtistsSuccess = createAction(
@@ -28,8 +28,7 @@ export const publishArtistRequest = createAction(
   props<{id: string}>()
 );
 export const publishArtistSuccess = createAction(
-  '[Artists] Publish Success',
-  props<{artists: Artist[]}>()
+  '[Artists] Publish Success'
 );
 export const publishArtistFailure = createAction(
   '[Artists] Publish Failure',
@@ -41,8 +40,7 @@ export const deleteArtistRequest = createAction(
   props<{id: string}>()
 );
 export const deleteArtistSuccess = createAction(
-  '[Artists] Delete Success',
-  props<{artists: Artist[]}>()
+  '[Artists] Delete Success'
 );
 export const deleteArtistFailure = createAction(
   '[Artists] Delete Failure',

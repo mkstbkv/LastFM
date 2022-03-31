@@ -41,7 +41,7 @@ router.post('/', auth, async (req, res, next) => {
             };
 
             const trackHistory = new TrackHistory(trackHistoryData);
-            trackHistory.generateDatetime()
+            trackHistory.generateDatetime();
             await trackHistory.save();
 
             return res.send(trackHistory);

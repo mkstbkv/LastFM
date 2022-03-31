@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { ArtistsState } from './types';
+import { ArtistsState } from '../types';
 import {
   createArtistFailure,
   createArtistRequest,
@@ -48,10 +48,9 @@ export const artistsReducer = createReducer(
     createError: error,
   })),
   on(publishArtistRequest, state => ({...state, publishLoading: true})),
-  on(publishArtistSuccess, (state, {artists}) => ({
+  on(publishArtistSuccess, state => ({
     ...state,
     publishLoading: false,
-    artists
   })),
   on(publishArtistFailure, (state, {error}) => ({
     ...state,
@@ -60,10 +59,9 @@ export const artistsReducer = createReducer(
   })),
 
   on(deleteArtistRequest, state => ({...state, deleteLoading: true})),
-  on(deleteArtistSuccess, (state, {artists}) => ({
+  on(deleteArtistSuccess, state => ({
     ...state,
     fetchLoading: false,
-    artists
   })),
   on(deleteArtistFailure, (state, {error}) => ({
     ...state,
